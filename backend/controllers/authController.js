@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
+import generateToken from "../utils/generateToken.js";
 
 
 // Register User
@@ -63,10 +64,16 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    res.status(200).json({
-      message: "Login successful",
-      user
-    });
+   res.status(200).json({
+  message: "Login successful",
+  token: generateToken(user._id),
+  user: {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role
+  }
+});
 
   } catch (error) {
 

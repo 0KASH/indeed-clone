@@ -3,6 +3,7 @@ import cors from "cors";
 import  dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js";
 
 dotenv.config()
 
@@ -16,13 +17,14 @@ app.use(cors())
 app.use(express.json())
 
 
-app.use("/api/auth", authRoutes);
-
-
 //Test API
 app.get("/" , (req, res) =>{
     res.send("indeed clone Backend Running");
 });
+
+app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
+
 
 
 //Server Start 
