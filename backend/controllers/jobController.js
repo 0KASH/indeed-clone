@@ -37,16 +37,60 @@ export const createJob = async (req, res) => {
 
 export const getAllJobs = async (req, res) => {
   try {
-    const jobs = await Job.find().populate(
-      "employer",
-      "name email"
-    );
 
-    res.status(200).json(jobs);
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const keyword = req.query.keyword;
+    const location = req.query.location;
+    const jobType = req.query.jobType;
+
+const search = {};
+
+if (keyword) {
+  search.title = {
+    $regex: keyword,
+    $options: "i",
+  };
+}
+
+
+if (location) {
+  search.location = {
+    $regex: location,
+    $options: "i",
+  };
+}
+
+if (jobType) {
+  search.jobType = {
+    $regex: jobType,
+    $options: "i",
+  };
+}
+  const totalJobs = await Job.countDocuments(search);
+
+   const jobs = await Job.find(search)
+  .populate("employer", "name email")
+  .skip(skip)
+  .limit(limit);
+
+
+res.status(200).json({
+  totalJobs,
+  page,
+  limit,
+  jobs
+});
+
+
   } catch (error) {
+
     res.status(500).json({
-      message: error.message,
+      message: error.message
     });
+
   }
 };
 
