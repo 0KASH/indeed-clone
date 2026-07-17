@@ -203,3 +203,26 @@ export const deleteJob = async (req, res) => {
 
   }
 };
+
+
+export const getMyJobs = async (req, res) => {
+
+  try {
+
+    const jobs = await Job.find({
+      employer: req.user._id
+    });
+
+
+    res.status(200).json(jobs);
+
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+
+};

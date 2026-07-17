@@ -119,6 +119,14 @@ export const updateApplicationStatus = async (req, res) => {
       });
     }
 
+    const job = await Job.findById(application.job);
+
+if (job.employer.toString() !== req.user._id.toString()) {
+  return res.status(403).json({
+    message: "Not authorized"
+  });
+}
+
 
     application.status = status;
 

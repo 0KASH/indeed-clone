@@ -4,7 +4,8 @@ import {
  getAllJobs,
  getSingleJob,
   updateJob,
-   deleteJob
+   deleteJob,
+    getMyJobs
 } from "../controllers/jobController.js";
 import protect from "../middleware/authMiddleware.js";
 import allowRoles from "../middleware/roleMiddleware.js";
@@ -12,7 +13,10 @@ import allowRoles from "../middleware/roleMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", getAllJobs);
+router.get("/", getAllJobs); 
+
+ router.get( "/my", protect,
+ allowRoles("employer"), getMyJobs );
 
 router.get("/:id", getSingleJob);
 
