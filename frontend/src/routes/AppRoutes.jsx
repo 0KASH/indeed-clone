@@ -7,6 +7,8 @@ import Register from "../pages/Register";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ProtectedRoute from "./ProtectedRoute";
+import Jobs from "../pages/Jobs";
+import JobDetails from "../pages/JobDetails";
 
 const AppRoutes = () => {
 
@@ -23,14 +25,10 @@ const AppRoutes = () => {
 
         <Route path="/register" element={<Register />} />
 
-        <Route path="/dashboard" element={
-     <ProtectedRoute>
-      <Dashboard />
-     </ProtectedRoute>
-  }
-/>
+        <Route path="/jobs" element={<Jobs />} />
+        <Route path="/jobs/:id" element={<JobDetails />}/>
 
-      </Routes>
+     </Routes>
 
       <Footer />
 
