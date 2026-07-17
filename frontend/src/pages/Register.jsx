@@ -8,11 +8,12 @@ const Register = () => {
   const navigate = useNavigate();
 
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: ""
-  });
+ const [formData, setFormData] = useState({
+  name: "",
+  email: "",
+  password: "",
+  role: "jobseeker"
+});
 
 
   const handleChange = (e) => {
@@ -85,7 +86,20 @@ const Register = () => {
           type="password"
           onChange={handleChange}
         />
+         
+         <select
+             name="role"
+          onChange={handleChange}>
 
+<option value="jobseeker">
+  Jobseeker
+</option>
+
+<option value="employer">
+  Employer
+</option>
+
+</select>
 
         <button>
           Register
