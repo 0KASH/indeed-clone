@@ -6,7 +6,7 @@ import Register from "../pages/Register";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
+import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoutes = () => {
 
@@ -22,6 +22,13 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
 
         <Route path="/register" element={<Register />} />
+
+        <Route path="/dashboard" element={
+     <ProtectedRoute>
+      <Dashboard />
+     </ProtectedRoute>
+  }
+/>
 
       </Routes>
 
