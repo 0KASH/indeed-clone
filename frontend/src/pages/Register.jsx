@@ -8,22 +8,34 @@ const Register = () => {
   const navigate = useNavigate();
 
 
- const [formData, setFormData] = useState({
-  name: "",
-  email: "",
-  password: "",
-  role: "jobseeker"
-});
+  const [formData, setFormData] = useState({
+
+    name: "",
+    email: "",
+    password: "",
+    role: "jobseeker"
+
+  });
+
+
+  const [loading, setLoading] = useState(false);
+
+  const [error, setError] = useState("");
+
 
 
   const handleChange = (e) => {
 
     setFormData({
+
       ...formData,
+
       [e.target.name]: e.target.value
+
     });
 
   };
+
 
 
   const handleSubmit = async (e) => {
@@ -32,6 +44,11 @@ const Register = () => {
 
 
     try {
+
+      setLoading(true);
+
+      setError("");
+
 
       const res = await API.post(
         "/auth/register",
@@ -44,69 +61,149 @@ const Register = () => {
 
       alert("Register Successful");
 
+
       navigate("/login");
+
 
 
     } catch (error) {
 
-      console.log(error.response.data);
+
+      setError(
+        error.response?.data?.message ||
+        "Registration Failed"
+      );
+
+
+    } finally {
+
+      setLoading(false);
 
     }
 
   };
 
 
+
   return (
 
-    <div>
-
-      <h1>Register</h1>
+    <div className="auth-container">
 
 
-      <form onSubmit={handleSubmit}>
+      <div className="auth-card">
 
 
-        <input
-          name="name"
-          placeholder="Name"
-          onChange={handleChange}
-        />
-
-
-        <input
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-        />
-
-
-        <input
-          name="password"
-          placeholder="Password"
-          type="password"
-          onChange={handleChange}
-        />
-         
-         <select
-             name="role"
-          onChange={handleChange}>
-
-<option value="jobseeker">
-  Jobseeker
-</option>
-
-<option value="employer">
-  Employer
-</option>
-
-</select>
-
-        <button>
+        <h1>
           Register
-        </button>
+        </h1>
 
 
-      </form>
+
+        {
+          error && (
+
+            <p className="error">
+              {error}
+            </p>
+
+          )
+        }
+
+
+
+        <form onSubmit={handleSubmit}>
+
+
+          <input
+
+            name="name"
+
+            placeholder="Name"
+
+            value={formData.name}
+
+            onChange={handleChange}
+
+          />
+
+
+
+          <input
+
+            name="email"
+
+            placeholder="Email"
+
+            value={formData.email}
+
+            onChange={handleChange}
+
+          />
+
+
+
+          <input
+
+            name="password"
+
+            placeholder="Password"
+
+            type="password"
+
+            value={formData.password}
+
+            onChange={handleChange}
+
+          />
+
+
+
+          <select
+
+            name="role"
+
+            value={formData.role}
+
+            onChange={handleChange}
+
+          >
+
+
+            <option value="jobseeker">
+              Jobseeker
+            </option>
+
+
+            <option value="employer">
+              Employer
+            </option>
+
+
+          </select>
+
+
+
+
+          <button disabled={loading}>
+
+
+            {
+              loading
+              ?
+              "Creating Account..."
+              :
+              "Register"
+            }
+
+
+          </button>
+
+
+
+        </form>
+
+
+      </div>
 
 
     </div>

@@ -7,23 +7,14 @@ const Jobs = () => {
 
   const [jobs, setJobs] = useState([]);
 
-  const [keyword, setKeyword] = useState("");
-
-  const [location, setLocation] = useState("");
-
-
 
   const getJobs = async () => {
 
     try {
 
-      const res = await API.get(
-        `/jobs?keyword=${keyword}&location=${location}`
-      );
-
+      const res = await API.get("/jobs");
 
       setJobs(res.data.jobs);
-
 
     } catch (error) {
 
@@ -36,7 +27,6 @@ const Jobs = () => {
   };
 
 
-
   useEffect(() => {
 
     getJobs();
@@ -44,88 +34,39 @@ const Jobs = () => {
   }, []);
 
 
-
-  const handleSearch = () => {
-
-    getJobs();
-
-  };
-
-
-
   return (
 
     <div>
-
 
       <h1>
         All Jobs
       </h1>
 
 
+      <div className="jobs-container">
 
-      <input
+        {
+          jobs.length > 0 ? (
 
-        type="text"
+            jobs.map((job)=>(
 
-        placeholder="Search job title"
+              <JobCard
+                key={job._id}
+                job={job}
+              />
 
-        value={keyword}
+            ))
 
-        onChange={(e)=>setKeyword(e.target.value)}
+          ) : (
 
-      />
+            <p>
+              No Jobs Found
+            </p>
 
+          )
+        }
 
-
-      <input
-
-        type="text"
-
-        placeholder="Location"
-
-        value={location}
-
-        onChange={(e)=>setLocation(e.target.value)}
-
-      />
-
-
-
-      <button onClick={handleSearch}>
-
-        Search
-
-      </button>
-
-
-
-
-      {
-        jobs.length > 0 ? (
-
-          jobs.map((job)=>(
-
-            <JobCard
-
-              key={job._id}
-
-              job={job}
-
-            />
-
-          ))
-
-        ) : (
-
-          <p>
-            No Jobs Found
-          </p>
-
-        )
-
-      }
-
+      </div>
 
 
     </div>

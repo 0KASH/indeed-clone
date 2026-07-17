@@ -17,7 +17,6 @@ const EmployerDashboard = () => {
 
       setData(res.data);
 
-
     } catch (error) {
 
       console.log(
@@ -38,7 +37,6 @@ const EmployerDashboard = () => {
 
       setJobs(res.data);
 
-
     } catch (error) {
 
       console.log(
@@ -49,26 +47,30 @@ const EmployerDashboard = () => {
 
   };
 
+
+
   const deleteJob = async (id) => {
 
- try {
+    try {
 
-  await API.delete(`/jobs/${id}`);
+      await API.delete(`/jobs/${id}`);
 
-  alert("Job Deleted");
+      alert("Job Deleted");
 
-  getMyJobs();
+      getMyJobs();
+
+      getDashboard();
 
 
- } catch(error){
+    } catch(error) {
 
-  console.log(
-   error.response?.data || error.message
-  );
+      console.log(
+        error.response?.data || error.message
+      );
 
- }
+    }
 
-};
+  };
 
 
 
@@ -87,36 +89,74 @@ const EmployerDashboard = () => {
 
   }
 
-  
-
 
 
   return (
 
-    <div>
+    <div className="dashboard">
+
 
       <h1>
         Employer Dashboard
       </h1>
 
+
+
       <Link to="/dashboard/create-job">
-      <button> Create New Job</button>
-     </Link>
+
+        <button className="create-btn">
+          Create New Job
+        </button>
+
+      </Link>
 
 
-      <h3>
-        Total Jobs: {data.totalJobs}
-      </h3>
+
+      <div className="stats">
 
 
-      <h3>
-        Total Applications: {data.totalApplications}
-      </h3>
+        <div className="stat-card">
+
+          <h3>
+            Total Jobs
+          </h3>
+
+          <h2>
+            {data.totalJobs}
+          </h2>
+
+        </div>
 
 
-      <h3>
-        Pending Applications: {data.pendingApplications}
-      </h3>
+
+        <div className="stat-card">
+
+          <h3>
+            Total Applications
+          </h3>
+
+          <h2>
+            {data.totalApplications}
+          </h2>
+
+        </div>
+
+
+
+        <div className="stat-card">
+
+          <h3>
+            Pending Applications
+          </h3>
+
+          <h2>
+            {data.pendingApplications}
+          </h2>
+
+        </div>
+
+
+      </div>
 
 
 
@@ -128,12 +168,19 @@ const EmployerDashboard = () => {
       </h2>
 
 
+
       {
+
         jobs.length > 0 ? (
 
           jobs.map((job)=>(
 
-            <div key={job._id}>
+
+            <div
+              className="dashboard-job-card"
+              key={job._id}
+            >
+
 
               <h3>
                 {job.title}
@@ -141,38 +188,63 @@ const EmployerDashboard = () => {
 
 
               <p>
-                {job.company}
+                Company: {job.company}
               </p>
 
 
               <p>
-                {job.location}
+                Location: {job.location}
               </p>
 
-              <button onClick={() => deleteJob(job._id)}>Delete</button>
+
+
+              <div>
+
+
+                <Link
+                  to={`/dashboard/job/${job._id}/applicants`}
+                >
+
+                  <button className="view-btn">
+                    View Applicants
+                  </button>
+
+
+                </Link>
+
+
+
+                <button
+                  className="delete-btn"
+                  onClick={() => deleteJob(job._id)}
+                >
+
+                  Delete
+
+                </button>
+
+
+              </div>
+
 
 
             </div>
+
 
           ))
 
         ) : (
 
+
           <p>
             No Jobs Found
           </p>
+
 
         )
 
       }
 
-      <div>
-  <Link to={`/dashboard/job/${job._id}/applicants`}>
-    <button>View Applicants</button>
-  </Link>
-
-  <button onClick={() => deleteJob(job._id)}> Delete  </button>
-   </div>
 
 
     </div>

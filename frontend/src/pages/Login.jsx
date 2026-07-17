@@ -12,19 +12,31 @@ const Login = () => {
 
 
   const [formData, setFormData] = useState({
+
     email: "",
     password: ""
+
   });
+
+
+  const [loading, setLoading] = useState(false);
+
+  const [error, setError] = useState("");
+
 
 
   const handleChange = (e) => {
 
     setFormData({
+
       ...formData,
+
       [e.target.name]: e.target.value
+
     });
 
   };
+
 
 
   const handleSubmit = async (e) => {
@@ -33,6 +45,11 @@ const Login = () => {
 
 
     try {
+
+      setLoading(true);
+
+      setError("");
+
 
       const res = await API.post(
         "/auth/login",
@@ -49,51 +66,106 @@ const Login = () => {
       alert("Login Successful");
 
 
-      navigate("/");
+      navigate("/dashboard");
+
 
 
     } catch (error) {
 
-      console.log(
-        error.response?.data || error.message
+
+      setError(
+        error.response?.data?.message ||
+        "Login Failed"
       );
+
+
+    } finally {
+
+      setLoading(false);
 
     }
 
   };
 
 
+
   return (
 
-    <div>
-
-      <h1>Login</h1>
+    <div className="auth-container">
 
 
-      <form onSubmit={handleSubmit}>
+      <div className="auth-card">
 
 
-        <input
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-        />
-
-
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          onChange={handleChange}
-        />
-
-
-        <button>
+        <h1>
           Login
-        </button>
+        </h1>
 
 
-      </form>
+
+        {
+          error && (
+
+            <p className="error">
+              {error}
+            </p>
+
+          )
+        }
+
+
+
+        <form onSubmit={handleSubmit}>
+
+
+          <input
+
+            name="email"
+
+            placeholder="Email"
+
+            value={formData.email}
+
+            onChange={handleChange}
+
+          />
+
+
+
+          <input
+
+            name="password"
+
+            type="password"
+
+            placeholder="Password"
+
+            value={formData.password}
+
+            onChange={handleChange}
+
+          />
+
+
+
+          <button disabled={loading}>
+
+            {
+              loading
+              ?
+              "Logging in..."
+              :
+              "Login"
+            }
+
+          </button>
+
+
+
+        </form>
+
+
+      </div>
 
 
     </div>

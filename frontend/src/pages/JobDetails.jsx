@@ -10,6 +10,7 @@ const JobDetails = () => {
   const [job, setJob] = useState(null);
 
 
+
   const getJob = async () => {
 
     try {
@@ -30,6 +31,7 @@ const JobDetails = () => {
   };
 
 
+
   const applyJob = async () => {
 
     try {
@@ -37,25 +39,29 @@ const JobDetails = () => {
       const res = await API.post(
         "/applications",
         {
-          job: id
+          jobId: id
         }
       );
 
 
       console.log(res.data);
 
+
       alert("Application Submitted");
 
 
     } catch (error) {
 
+
       console.log(
         error.response?.data || error.message
       );
 
+
     }
 
   };
+
 
 
   useEffect(() => {
@@ -76,47 +82,68 @@ const JobDetails = () => {
 
   return (
 
-    <div>
+    <div className="job-details">
+
 
       <h1>
         {job.title}
       </h1>
 
 
-      <p>
-        Company: {job.company}
-      </p>
+      <div className="details-card">
 
 
-      <p>
-        Location: {job.location}
-      </p>
+        <h2>
+          {job.company}
+        </h2>
 
 
-      <p>
-        Salary: {job.salary}
-      </p>
+        <p>
+          📍 Location: {job.location}
+        </p>
 
 
-      <p>
-        Job Type: {job.jobType}
-      </p>
+        <p>
+          💰 Salary: {job.salary}
+        </p>
 
 
-      <p>
-        Experience: {job.experience}
-      </p>
+        <p>
+          💼 Job Type: {job.jobType}
+        </p>
 
 
-      <p>
-        Description: {job.description}
-      </p>
+        <p>
+          Experience: {job.experience}
+        </p>
 
 
 
-      <button onClick={applyJob}>
-        Apply Now
-      </button>
+        <hr />
+
+
+        <h3>
+          Description
+        </h3>
+
+
+        <p>
+          {job.description}
+        </p>
+
+
+
+        <button
+          className="apply-btn"
+          onClick={applyJob}
+        >
+
+          Apply Now
+
+        </button>
+
+
+      </div>
 
 
     </div>

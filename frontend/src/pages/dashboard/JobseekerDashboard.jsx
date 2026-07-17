@@ -37,7 +37,8 @@ const JobseekerDashboard = () => {
 
   return (
 
-    <div>
+    <div className="dashboard">
+
 
       <h1>
         Jobseeker Dashboard
@@ -49,41 +50,98 @@ const JobseekerDashboard = () => {
       </h2>
 
 
+
       {
+
         applications.length > 0 ? (
 
-          applications.map((app) => (
-
-            <div key={app._id}>
-
-              <h3>
-                {app.job.title}
-              </h3>
+          <div className="applications-container">
 
 
-              <p>
-                Company: {app.job.company}
-              </p>
+            {
+
+              applications.map((app)=>(
 
 
-              <p>
-                Status: {app.status}
-              </p>
+                <div
+                  className="application-card"
+                  key={app._id}
+                >
 
 
-            </div>
+                  <h3>
+                    {app.job.title}
+                  </h3>
 
-          ))
+
+                  <p>
+                    Company: {app.job.company}
+                  </p>
+
+
+                  <p>
+                    Location: {app.job.location}
+                  </p>
+
+
+                  <p>
+                    Salary: {app.job.salary}
+                  </p>
+
+
+                  <p>
+                    Job Type: {app.job.jobType}
+                  </p>
+
+
+
+                  <p>
+                    Status:
+
+                    <span
+                      className={
+                        app.status === "Accepted"
+                        ? "status accepted"
+                        :
+                        app.status === "Rejected"
+                        ? "status rejected"
+                        :
+                        "status pending"
+                      }
+                    >
+
+                      {app.status}
+
+                    </span>
+
+                  </p>
+
+
+
+                </div>
+
+
+              ))
+
+            }
+
+
+          </div>
+
 
         ) : (
+
 
           <p>
             No Applications Found
           </p>
 
+
         )
 
+
       }
+
 
 
     </div>

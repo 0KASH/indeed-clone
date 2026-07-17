@@ -18,6 +18,9 @@ const CreateJob = () => {
   });
 
 
+  const [loading, setLoading] = useState(false);
+
+
 
   const handleChange = (e)=>{
 
@@ -40,6 +43,8 @@ const CreateJob = () => {
 
     try {
 
+      setLoading(true);
+
 
       const res = await API.post(
         "/jobs",
@@ -50,7 +55,20 @@ const CreateJob = () => {
       console.log(res.data);
 
 
-      alert("Job Created");
+      alert("Job Created Successfully");
+
+
+      setForm({
+
+        title:"",
+        company:"",
+        location:"",
+        salary:"",
+        jobType:"",
+        experience:"",
+        description:""
+
+      });
 
 
     } catch(error){
@@ -61,6 +79,10 @@ const CreateJob = () => {
       );
 
 
+    } finally {
+
+      setLoading(false);
+
     }
 
   };
@@ -69,18 +91,24 @@ const CreateJob = () => {
 
   return (
 
-    <div>
+    <div className="create-job">
+
 
       <h1>
-        Create Job
+        Create New Job
       </h1>
 
 
-      <form onSubmit={handleSubmit}>
+
+      <form
+        className="job-form"
+        onSubmit={handleSubmit}
+      >
 
 
         <input
           name="title"
+          value={form.title}
           placeholder="Job Title"
           onChange={handleChange}
         />
@@ -88,13 +116,15 @@ const CreateJob = () => {
 
         <input
           name="company"
-          placeholder="Company"
+          value={form.company}
+          placeholder="Company Name"
           onChange={handleChange}
         />
 
 
         <input
           name="location"
+          value={form.location}
           placeholder="Location"
           onChange={handleChange}
         />
@@ -102,6 +132,7 @@ const CreateJob = () => {
 
         <input
           name="salary"
+          value={form.salary}
           placeholder="Salary"
           onChange={handleChange}
         />
@@ -109,6 +140,7 @@ const CreateJob = () => {
 
         <input
           name="jobType"
+          value={form.jobType}
           placeholder="Job Type"
           onChange={handleChange}
         />
@@ -116,6 +148,7 @@ const CreateJob = () => {
 
         <input
           name="experience"
+          value={form.experience}
           placeholder="Experience"
           onChange={handleChange}
         />
@@ -123,13 +156,24 @@ const CreateJob = () => {
 
         <textarea
           name="description"
-          placeholder="Description"
+          value={form.description}
+          placeholder="Job Description"
           onChange={handleChange}
         />
 
 
-        <button>
-          Create Job
+        <button
+          disabled={loading}
+        >
+
+          {
+            loading
+            ?
+            "Creating..."
+            :
+            "Create Job"
+          }
+
         </button>
 
 

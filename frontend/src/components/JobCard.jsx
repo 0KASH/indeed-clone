@@ -1,36 +1,48 @@
 import { Link } from "react-router-dom";
+
+
 const JobCard = ({ job }) => {
 
   return (
-    <div>
 
-      <h3>{job.title}</h3>
+    <div className="job-card">
+
+      <h2>
+        {job.title}
+      </h2>
+
+      <h4>
+        {job.company}
+      </h4>
 
       <p>
-        Company: {job.company}
+        📍 {job.location}
       </p>
 
       <p>
-        Location: {job.location}
+        💰 Salary: {job.salary}
       </p>
 
       <p>
-        Salary: {job.salary || "Not mentioned"}
+        💼 Type: {job.jobType}
       </p>
 
       <p>
-        Type: {job.jobType || "Full Time"}
+        Experience: {job.experience}
       </p>
 
 
       <Link to={`/jobs/${job._id}`}>
-        <button>
+
+        <button className="view-btn">
           View Details
         </button>
+
       </Link>
 
 
     </div>
+
   );
 
 };
